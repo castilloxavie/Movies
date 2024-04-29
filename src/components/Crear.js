@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { saveInStorage } from "../helpers/GuardarEnStorage";
 
-export const Crear = () => {
+export const Crear = ({setListState}) => {
     const title = "Añadir pelicula ";
 
+    /* El código `const [moviesState, setMoviesState] = useState({ titles: "", descripción: "" });` es
+    usando el gancho `useState` de React para crear una variable de estado llamada `moviesState` y un
+    función para actualizar ese estado llamada `setMoviesState`. */
     const [moviesState, setMoviesState] = useState({
         titles: "",
         description: "",
@@ -12,6 +15,14 @@ export const Crear = () => {
     //destructural el useState de  moviesState
     const { titles, description } = moviesState;
 
+    /*
+     La función `getFormData` captura datos del formulario, crea un objeto de película y actualiza la aplicación
+     estado y guarda la película en el almacenamiento local.
+     @param e - El parámetro `e` en la función `getFormData` suele ser un objeto de evento que
+     representa el evento que desencadenó la función. En este caso, es probable que sea un objeto de evento.
+     relacionado con el envío de un formulario, ya que la función está diseñada para manejar datos del formulario. El
+     Se utiliza el método `e.preventDefault()`
+     */
     const getFormData = (e) => {
         e.preventDefault();
 
@@ -32,8 +43,15 @@ export const Crear = () => {
         setMoviesState(movie);
         console.log(setMoviesState);
 
+        //actualizar el estado principal de la aplicacion
+        setListState(elements => {
+            return [...elements, movie]
+        })
+
         //guardar en el almacenamiento local
         saveInStorage("movies", movie);
+
+       
     };
 
     return (
